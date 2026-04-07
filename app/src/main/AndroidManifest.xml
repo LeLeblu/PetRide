@@ -12,6 +12,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PetRide">
         <activity
+            android:name=".screens.rides.request_ride.RequestRideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.rides.history_rides.RidesHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.pets.manage_pet.ManagePetsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.pets.add_pet.AddNewPetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.home.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.calendar.CalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.rides.RidesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.pets.PetsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.authentication.signup.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.authentication.login.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
