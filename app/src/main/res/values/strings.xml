@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PetRide</string>
+    <string name="content_description_logo">logo</string>
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="do_you_have_an_account">¿No tienes cuenta? Regístrate</string>
 </resources>

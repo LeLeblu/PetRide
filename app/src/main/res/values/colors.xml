@@ -2,4 +2,38 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Light Theme Colors -->
+    <color name="md_theme_light_primary">#1976D2</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#D1E4FF</color>
+    <color name="md_theme_light_onPrimaryContainer">#001D36</color>
+    <color name="md_theme_light_secondary">#6F5B59</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#D7CCC8</color>
+    <color name="md_theme_light_onSecondaryContainer">#281817</color>
+    <color name="md_theme_light_background">#F5F5DC</color>
+    <color name="md_theme_light_onBackground">#1D1B16</color>
+    <color name="md_theme_light_surface">#F5F5DC</color>
+    <color name="md_theme_light_onSurface">#1D1B16</color>
+    <color name="md_theme_light_surfaceVariant">#E7E2D9</color>
+    <color name="md_theme_light_onSurfaceVariant">#49473F</color>
+    <color name="md_theme_light_outline">#7A776D</color>
+
+    <!-- Dark Theme Colors -->
+    <color name="md_theme_dark_primary">#9ECAFF</color>
+    <color name="md_theme_dark_onPrimary">#003258</color>
+    <color name="md_theme_dark_primaryContainer">#00497D</color>
+    <color name="md_theme_dark_onPrimaryContainer">#D1E4FF</color>
+    <color name="md_theme_dark_secondary">#DBC2BF</color>
+    <color name="md_theme_dark_onSecondary">#3E2D2B</color>
+    <color name="md_theme_dark_secondaryContainer">#564442</color>
+    <color name="md_theme_dark_onSecondaryContainer">#FADBDA</color>
+    <color name="md_theme_dark_background">#1D1B16</color>
+    <color name="md_theme_dark_onBackground">#E6E2D9</color>
+    <color name="md_theme_dark_surface">#1D1B16</color>
+    <color name="md_theme_dark_onSurface">#E6E2D9</color>
+    <color name="md_theme_dark_surfaceVariant">#49473F</color>
+    <color name="md_theme_dark_onSurfaceVariant">#CDC6B9</color>
+    <color name="md_theme_dark_outline">#949085</color>
 </resources>
