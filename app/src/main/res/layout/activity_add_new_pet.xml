@@ -24,7 +24,7 @@
             android:layout_marginBottom="20dp"
             tools:ignore="HardcodedText" />
 
-        <!-- Imagen -->
+        <!-- Imagen de la mascota (Clickable para cambiar foto) -->
         <ImageView
             android:id="@+id/imgMascota"
             android:layout_width="150dp"
@@ -33,39 +33,21 @@
             android:layout_gravity="center"
             android:background="?attr/colorSecondaryContainer"
             android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:contentDescription="@string/photopet" />
+            android:layout_marginBottom="4dp"
+            android:contentDescription="@string/photopet"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground" />
 
-        <!-- Botones imagen -->
-        <LinearLayout
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="20dp">
-
-            <Button
-                android:id="@+id/btnGaleria"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Galería"
-                android:backgroundTint="?attr/colorPrimary"
-                android:textColor="?attr/colorOnPrimary"
-                tools:ignore="HardcodedText" />
-
-            <Button
-                android:id="@+id/btnCamara"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cámara"
-                android:layout_marginStart="10dp"
-                android:backgroundTint="?attr/colorSecondaryContainer"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                tools:ignore="HardcodedText" />
-        </LinearLayout>
+            android:text="Tocar para cambiar foto"
+            android:textSize="12sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:textColor="?android:attr/textColorSecondary"
+            tools:ignore="HardcodedText" />
 
         <!-- Campos -->
         <EditText
@@ -102,32 +84,10 @@
             tools:ignore="HardcodedText" />
 
         <EditText
-            android:id="@+id/etDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:autofillHints=""
-            android:backgroundTint="?attr/colorSecondary"
-            android:hint="Dirección"
-            android:minHeight="48dp"
-            tools:ignore="HardcodedText" />
-
-        <EditText
-            android:id="@+id/etCiudad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:autofillHints=""
-            android:backgroundTint="?attr/colorSecondary"
-            android:hint="Ciudad"
-            android:minHeight="48dp"
-            tools:ignore="HardcodedText,TextFields" />
-
-        <EditText
             android:id="@+id/etCare_tips"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:autofillHints=""
             android:backgroundTint="?attr/colorSecondary"
             android:hint="Consejos y cuidados"

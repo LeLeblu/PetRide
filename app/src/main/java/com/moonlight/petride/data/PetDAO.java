@@ -22,7 +22,7 @@ public class PetDAO {
      * CREATE: Inserta una nueva mascota en la base de datos.
      * @return El ID de la fila insertada o -1 si hubo un fallo.
      */
-    public long insertPet(long ownerId, String name, String breed, int age, String careTips) {
+    public long insertPet(long ownerId, String name, String breed, int age, String careTips, String image) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         
@@ -32,6 +32,7 @@ public class PetDAO {
         values.put(PetEntry.COLUMN_BREED, breed);
         values.put(PetEntry.COLUMN_AGE, age);
         values.put(PetEntry.COLUMN_CARE_TIPS, careTips);
+        values.put(PetEntry.COLUMN_IMAGE, image);
 
         long id = db.insert(PetEntry.TABLE_NAME, null, values);
         db.close();
@@ -62,7 +63,7 @@ public class PetDAO {
     /**
      * UPDATE: Actualiza los datos de una mascota.
      */
-    public int updatePet(long id, String name, String breed, int age, String careTips) {
+    public int updatePet(long id, String name, String breed, int age, String careTips, String image) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         
@@ -70,6 +71,7 @@ public class PetDAO {
         values.put(PetEntry.COLUMN_BREED, breed);
         values.put(PetEntry.COLUMN_AGE, age);
         values.put(PetEntry.COLUMN_CARE_TIPS, careTips);
+        values.put(PetEntry.COLUMN_IMAGE, image);
 
         String selection = PetEntry._ID + " = ?";
         String[] selectionArgs = { String.valueOf(id) };

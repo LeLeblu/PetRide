@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permisos necesarios para la cámara -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Declaramos que la app usa la cámara para que Google Play lo sepa -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -22,9 +28,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".screens.rides.request_ride.RequestRideActivity"
-            android:exported="false" />
         <activity
             android:name=".screens.rides.history_rides.RidesHistoryActivity"
             android:exported="false" />

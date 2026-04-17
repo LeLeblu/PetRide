@@ -44,24 +44,29 @@ public class UserDAO {
     }
 
     /**
-     * Verifica si las credenciales de un usuario son correctas.
+     * Verifica si las credenciales de un usuario son correctas y devuelve su ID.
      * @param email Email ingresado.
      * @param password Contraseña ingresada.
-     * @return true si coinciden, false de lo contrario.
+     * @return El ID del usuario si las credenciales son correctas, -1 de lo contrario.
      */
-    public boolean checkUserCredentials(String email, String password) {
+    public long checkUserCredentials(String email, String password) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        
+        long userId = -1;
+
         String selection = UserEntry.COLUMN_EMAIL + " = ? AND " + UserEntry.COLUMN_PASSWORD + " = ?";
         String[] selectionArgs = { email, password };
         
-        Cursor cursor = db.query(UserEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        Cursor cursor = db.query(UserEntry.TABLE_NAME, 
+                new String[]{UserEntry._ID}, 
+                selection, selectionArgs, null, null, null);
         
-        boolean exists = (cursor.getCount() > 0);
-        cursor.close();
+        if (cursor != null && cursor.moveToFirst()) {
+            userId = cursor.getLong(cursor.getColumnIndexOrThrow(UserEntry._ID));
+            cursor.close();
+        }
         db.close();
         
-        return exists;
+        return userId;
     }
 
     /**

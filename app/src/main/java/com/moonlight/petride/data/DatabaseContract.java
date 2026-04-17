@@ -30,6 +30,7 @@ public final class DatabaseContract {
         public static final String COLUMN_BREED = "breed";
         public static final String COLUMN_AGE = "age";
         public static final String COLUMN_CARE_TIPS = "care_tips"; // Opcional
+        public static final String COLUMN_IMAGE = "image"; // Nuevo campo para la imagen (URI o path)
     }
 
     /* Definición de la tabla Ride */
@@ -39,5 +40,11 @@ public final class DatabaseContract {
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_PICKUP_LOCATION = "pickup_location";
         public static final String COLUMN_RIDE_STATE = "ride_state";
+    }
+
+    /* Definición de la tabla Session para el manejo de sesión única */
+    public static class SessionEntry implements BaseColumns {
+        public static final String TABLE_NAME = "session";
+        public static final String COLUMN_USER_ID = "user_id"; // Foreign Key a User
     }
 }

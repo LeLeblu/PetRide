@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.moonlight.petride.data.DatabaseContract.UserEntry;
 import com.moonlight.petride.data.DatabaseContract.PetEntry;
 import com.moonlight.petride.data.DatabaseContract.RideEntry;
+import com.moonlight.petride.data.DatabaseContract.SessionEntry;
 
 /**
  * Clase DatabaseHelper: Gestiona la creación y actualización de la base de datos.
@@ -14,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Nombre y versión de la base de datos
     private static final String DATABASE_NAME = "PetRide.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3; // Incrementada de 2 a 3 para la tabla session
 
     // Sentencia SQL para crear la tabla de Usuarios
     private static final String SQL_CREATE_USERS_TABLE = 
@@ -36,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         PetEntry.COLUMN_BREED + " TEXT NOT NULL, " +
         PetEntry.COLUMN_AGE + " INTEGER NOT NULL, " +
         PetEntry.COLUMN_CARE_TIPS + " TEXT, " + // Opcional
+        PetEntry.COLUMN_IMAGE + " TEXT, " + // Nuevo campo para la imagen
         "FOREIGN KEY (" + PetEntry.COLUMN_OWNER_ID + ") REFERENCES " + 
         UserEntry.TABLE_NAME + "(" + UserEntry._ID + "));";
 
@@ -46,9 +48,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         RideEntry.COLUMN_PET_ID + " INTEGER NOT NULL, " +
         RideEntry.COLUMN_DATE + " TEXT NOT NULL, " +
         RideEntry.COLUMN_PICKUP_LOCATION + " TEXT NOT NULL, " +
-        RideEntry.COLUMN_RIDE_STATE + " TEXT NOT NULL, " + // O Entero, según prefieras
+        RideEntry.COLUMN_RIDE_STATE + " TEXT NOT NULL, " +
         "FOREIGN KEY (" + RideEntry.COLUMN_PET_ID + ") REFERENCES " + 
         PetEntry.TABLE_NAME + "(" + PetEntry._ID + "));";
+
+    // Sentencia SQL para crear la tabla de Sesión
+    private static final String SQL_CREATE_SESSION_TABLE = 
+        "CREATE TABLE " + SessionEntry.TABLE_NAME + " (" +
+        SessionEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        SessionEntry.COLUMN_USER_ID + " INTEGER NOT NULL, " +
+        "FOREIGN KEY (" + SessionEntry.COLUMN_USER_ID + ") REFERENCES " + 
+        UserEntry.TABLE_NAME + "(" + UserEntry._ID + "));";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,16 +70,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_USERS_TABLE);
         db.execSQL(SQL_CREATE_PETS_TABLE);
         db.execSQL(SQL_CREATE_RIDES_TABLE);
+        db.execSQL(SQL_CREATE_SESSION_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // En una aplicación real, se debería migrar la información.
-        // Aquí simplemente eliminamos y volvemos a crear las tablas.
-        db.execSQL("DROP TABLE IF EXISTS " + RideEntry.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + PetEntry.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + UserEntry.TABLE_NAME);
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + PetEntry.TABLE_NAME + " ADD COLUMN " + PetEntry.COLUMN_IMAGE + " TEXT");
+        }
+        if (oldVersion < 3) {
+            db.execSQL(SQL_CREATE_SESSION_TABLE);
+        }
     }
 
     @Override
