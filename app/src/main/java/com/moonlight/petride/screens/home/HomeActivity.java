@@ -1,5 +1,6 @@
 package com.moonlight.petride.screens.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,6 +12,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.moonlight.petride.R;
+import com.moonlight.petride.screens.calendar.CalendarActivity;
+import com.moonlight.petride.screens.pets.PetsActivity;
+import com.moonlight.petride.screens.rides.RidesActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -24,6 +28,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         
         vincularVistas();
+        configurarNavegacion();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -37,5 +42,25 @@ public class HomeActivity extends AppCompatActivity {
         btnPaseos = findViewById(R.id.btnPaseos);
         btnCalendario = findViewById(R.id.btnCalendario);
         choosAanOption = findViewById(R.id.choosAanOption);
+    }
+
+    private void configurarNavegacion() {
+        // Navegación a Mascotas
+        btnMascotas.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, PetsActivity.class);
+            startActivity(intent);
+        });
+
+        // Navegación a Paseos
+        btnPaseos.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, RidesActivity.class);
+            startActivity(intent);
+        });
+
+        // Navegación a Calendario
+        btnCalendario.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, CalendarActivity.class);
+            startActivity(intent);
+        });
     }
 }
