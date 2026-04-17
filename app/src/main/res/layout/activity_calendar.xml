@@ -1,10 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.calendar.CalendarActivity">
+    android:orientation="vertical"
+    android:background="?android:attr/windowBackground"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Título -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calendario 📅"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        tools:ignore="HardcodedText" />
+
+    <!-- Calendario -->
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Fecha seleccionada -->
+    <TextView
+        android:id="@+id/tvFechaSeleccionada"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_marginTop="10dp"
+        android:text="Fecha seleccionada:"
+        android:textColor="?attr/colorOnBackground"
+        tools:ignore="HardcodedText" />
+
+    <!-- Botón agregar evento -->
+    <Button
+        android:id="@+id/btnAgregarEvento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="➕ Agregar Evento"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary"
+        tools:ignore="HardcodedText" />
+
+    <!-- Volver -->
+    <TextView
+        android:id="@+id/tvVolverCalendario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="◀ Volver"
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>

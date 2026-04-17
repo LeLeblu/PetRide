@@ -1,82 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?android:attr/windowBackground"
-    android:padding="24dp"
-    android:gravity="center_horizontal">
+    android:padding="20dp"
+    android:fillViewport="true">
 
-    <!-- Título con Icono -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="30dp">
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@drawable/ic_ridepet"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Icono de paseos"
+        <!-- Título -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Solicitar Paseo 🐶"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
             tools:ignore="HardcodedText" />
 
+        <!-- Seleccionar mascota -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Paseos"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorPrimary"/>
+            android:text="Seleccionar mascota"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginBottom="5dp"
+            tools:ignore="HardcodedText" />
+
+        <Spinner
+            android:id="@+id/spMascotas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:minHeight="48dp" />
+
+        <!-- Fecha -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginBottom="5dp"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/etFecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:autofillHints=""
+            android:backgroundTint="?attr/colorSecondary"
+            android:focusable="false"
+            android:hint="Seleccionar fecha"
+            android:inputType="datetime"
+            android:minHeight="48dp"
+            android:textColorHint="#2E7D32"
+            tools:ignore="HardcodedText,VisualLintTextFieldSize" />
+
+        <!-- Hora -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hora"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginBottom="5dp"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/etHora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:autofillHints=""
+            android:backgroundTint="?attr/colorSecondary"
+            android:focusable="false"
+            android:hint="Seleccionar hora"
+            android:inputType="datetime"
+            android:minHeight="48dp"
+            android:textColorHint="#2E7D32"
+            tools:ignore="HardcodedText,VisualLintTextFieldSize" />
+
+        <!-- Dirección -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dirección"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginBottom="5dp"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/etDireccionPaseo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:autofillHints=""
+            android:backgroundTint="?attr/colorSecondary"
+            android:hint="Ingrese dirección"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#2E7D32"
+            tools:ignore="HardcodedText,VisualLintTextFieldSize" />
+
+        <!-- Mapa -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ubicación en el mapa"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginBottom="5dp"
+            tools:ignore="HardcodedText" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="?attr/colorSecondaryContainer"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_mapa"
+                android:scaleType="centerCrop"
+                android:contentDescription="Mapa"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mapa (seleccionar ubicación)"
+                android:textColor="?attr/colorOnSecondaryContainer"
+                android:layout_gravity="center"
+                tools:ignore="HardcodedText" />
+
+        </FrameLayout>
+
+        <!-- Botón -->
+        <Button
+            android:id="@+id/btnConfirmarPaseo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorPrimary"
+            android:text="Confirmar Paseo"
+            android:textColor="?attr/colorOnPrimary"
+            tools:ignore="HardcodedText,VisualLintButtonSize,TouchTargetSizeCheck" />
+
     </LinearLayout>
 
-    <!-- Línea divisoria decorativa -->
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_marginBottom="15dp"
-        android:background="?attr/colorPrimary" />
-
-    <!-- Botón Solicitar Paseo -->
-    <Button
-        android:id="@+id/btnSolicitarPaseo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="🐶 Solicitar Paseo"
-        android:textSize="18sp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="?attr/colorPrimary"
-        android:textColor="?attr/colorOnPrimary"
-        android:padding="14dp"
-        tools:ignore="HardcodedText,VisualLintButtonSize" />
-
-    <!-- Botón Historial -->
-    <Button
-        android:id="@+id/btnHistorial"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="📋 Ver historial de Paseos"
-        android:textSize="18sp"
-        android:backgroundTint="?attr/colorSecondaryContainer"
-        android:textColor="?attr/colorOnSecondaryContainer"
-        android:padding="14dp"
-        tools:ignore="HardcodedText,VisualLintButtonSize" />
-
-    <!-- Volver -->
-    <TextView
-        android:id="@+id/tvVolverPaseos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:minHeight="48dp"
-        android:text="◀ Volver"
-        android:textColor="#1565C0"
-        tools:ignore="HardcodedText" />
-
-</LinearLayout>
+</ScrollView>
