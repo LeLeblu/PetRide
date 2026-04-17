@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.moonlight.petride.data.DatabaseContract.PetEntry;
+import com.moonlight.petride.data.model.Pet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase PetDAO: Maneja las operaciones CRUD para la tabla de Mascotas.
@@ -41,15 +44,55 @@ public class PetDAO {
 
     /**
      * READ: Obtiene una mascota específica por su ID.
-     * @return Un Cursor con el resultado (debe cerrarse después de usar).
      */
-    public Cursor getPetById(long id) {
+    public Pet getPetById(long id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String selection = PetEntry._ID + " = ?";
         String[] selectionArgs = { String.valueOf(id) };
 
-        // Retornamos el cursor directamente. Recuerda cerrarlo en la UI o donde se llame.
-        return db.query(PetEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        Cursor cursor = db.query(PetEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        Pet pet = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            pet = cursorToPet(cursor);
+            cursor.close();
+        }
+        return pet;
+    }
+
+    /**
+     * READ: Obtiene todas las mascotas de un usuario específico.
+     */
+    public List<Pet> getPetsByUserId(long userId) {
+        List<Pet> pets = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        
+        String selection = PetEntry.COLUMN_OWNER_ID + " = ?";
+        String[] selectionArgs = { String.valueOf(userId) };
+
+        Cursor cursor = db.query(PetEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                pets.add(cursorToPet(cursor));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return pets;
+    }
+
+    /**
+     * Auxiliar para convertir un Cursor en un objeto Pet.
+     */
+    private Pet cursorToPet(Cursor cursor) {
+        Pet pet = new Pet();
+        pet.setId(cursor.getLong(cursor.getColumnIndexOrThrow(PetEntry._ID)));
+        pet.setOwnerId(cursor.getLong(cursor.getColumnIndexOrThrow(PetEntry.COLUMN_OWNER_ID)));
+        pet.setName(cursor.getString(cursor.getColumnIndexOrThrow(PetEntry.COLUMN_NAME)));
+        pet.setBreed(cursor.getString(cursor.getColumnIndexOrThrow(PetEntry.COLUMN_BREED)));
+        pet.setAge(cursor.getInt(cursor.getColumnIndexOrThrow(PetEntry.COLUMN_AGE)));
+        pet.setCareTips(cursor.getString(cursor.getColumnIndexOrThrow(PetEntry.COLUMN_CARE_TIPS)));
+        pet.setImagePath(cursor.getString(cursor.getColumnIndexOrThrow(PetEntry.COLUMN_IMAGE)));
+        return pet;
     }
 
     /**
