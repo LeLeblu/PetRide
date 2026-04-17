@@ -40,7 +40,8 @@
             android:layout_marginBottom="12dp"
             android:backgroundTint="?attr/colorSecondary"
             android:hint="@string/email_hint"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp" />
 
         <!-- Contraseña -->
         <EditText
@@ -50,7 +51,8 @@
             android:layout_marginBottom="20dp"
             android:backgroundTint="?attr/colorSecondary"
             android:hint="Contraseña"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
 
         <!-- Botón login -->
         <Button

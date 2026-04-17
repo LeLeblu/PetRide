@@ -4,4 +4,13 @@
     <string name="login_title">Iniciar Sesión</string>
     <string name="email_hint">Correo electrónico</string>
     <string name="do_you_have_an_account">¿No tienes cuenta? Regístrate</string>
+    <string name="Addpet">Agregar Mascota</string>
+    <string name="photopet">Imagen de la mascota</string>
+    <string name="ya_tienes_cuenta_inicia_sesi_n">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="btn_registrarse">Registrarse</string>
+    <string name="confirmar_contrase_a">Confirmar contraseña</string>
+    <string name="registro_de_usuario">Registro de Usuario</string>
+    <string name="escogeUnaOpcion">Escoge una opción:</string>
+    <string name="chooseAnOption">chooseAnoption</string>
+    <string name="Paseos">Paseos</string>
 </resources>

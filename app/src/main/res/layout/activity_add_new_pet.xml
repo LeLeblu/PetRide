@@ -1,10 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.pets.add_pet.AddNewPetActivity">
+    android:background="?android:attr/windowBackground"
+    android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Agregar Mascota 🐶"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            tools:ignore="HardcodedText" />
+
+        <!-- Imagen -->
+        <ImageView
+            android:id="@+id/imgMascota"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_dog"
+            android:layout_gravity="center"
+            android:background="?attr/colorSecondaryContainer"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/photopet" />
+
+        <!-- Botones imagen -->
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="20dp">
+
+            <Button
+                android:id="@+id/btnGaleria"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Galería"
+                android:backgroundTint="?attr/colorPrimary"
+                android:textColor="?attr/colorOnPrimary"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/btnCamara"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cámara"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="?attr/colorSecondaryContainer"
+                android:textColor="?attr/colorOnSecondaryContainer"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <!-- Campos -->
+        <EditText
+            android:id="@+id/etNombreMascota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:autofillHints=""
+            android:backgroundTint="?attr/colorSecondary"
+            android:hint="Nombre"
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText,TextFields" />
+
+        <EditText
+            android:id="@+id/etRaza"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:autofillHints=""
+            android:backgroundTint="?attr/colorSecondary"
+            android:hint="Raza"
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText,TextFields" />
+
+        <EditText
+            android:id="@+id/etEdad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="?attr/colorSecondary"
+            android:hint="Edad"
+            android:inputType="number"
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/etDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:autofillHints=""
+            android:backgroundTint="?attr/colorSecondary"
+            android:hint="Dirección"
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText" />
+
+        <EditText
+            android:id="@+id/etCiudad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:autofillHints=""
+            android:backgroundTint="?attr/colorSecondary"
+            android:hint="Ciudad"
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText,TextFields" />
+
+        <EditText
+            android:id="@+id/etCare_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:autofillHints=""
+            android:backgroundTint="?attr/colorSecondary"
+            android:hint="Consejos y cuidados"
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText,TextFields" />
+
+
+        <!-- Botón agregar -->
+        <Button
+            android:id="@+id/btnAgregarMascota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Addpet"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"/>
+
+    </LinearLayout>
+
+</ScrollView>
