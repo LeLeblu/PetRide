@@ -25,7 +25,7 @@ public class UserDAO {
      * CREATE: Inserta un nuevo usuario.
      * @return El ID del nuevo registro o -1 si hubo un error.
      */
-    public long insertUser(String fullName, String phone, String address, String city, String email) {
+    public long insertUser(String fullName, String phone, String address, String city, String email, String password) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         
@@ -35,11 +35,33 @@ public class UserDAO {
         values.put(UserEntry.COLUMN_ADDRESS, address);
         values.put(UserEntry.COLUMN_CITY, city);
         values.put(UserEntry.COLUMN_EMAIL, email);
+        values.put(UserEntry.COLUMN_PASSWORD, password);
 
         // Insertamos y cerramos la conexión
         long id = db.insert(UserEntry.TABLE_NAME, null, values);
         db.close(); 
         return id;
+    }
+
+    /**
+     * Verifica si las credenciales de un usuario son correctas.
+     * @param email Email ingresado.
+     * @param password Contraseña ingresada.
+     * @return true si coinciden, false de lo contrario.
+     */
+    public boolean checkUserCredentials(String email, String password) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        
+        String selection = UserEntry.COLUMN_EMAIL + " = ? AND " + UserEntry.COLUMN_PASSWORD + " = ?";
+        String[] selectionArgs = { email, password };
+        
+        Cursor cursor = db.query(UserEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        db.close();
+        
+        return exists;
     }
 
     /**
@@ -71,7 +93,7 @@ public class UserDAO {
     /**
      * UPDATE: Actualiza los datos de un usuario existente.
      */
-    public int updateUser(long id, String fullName, String phone, String address, String city, String email) {
+    public int updateUser(long id, String fullName, String phone, String address, String city, String email, String password) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         
@@ -80,6 +102,7 @@ public class UserDAO {
         values.put(UserEntry.COLUMN_ADDRESS, address);
         values.put(UserEntry.COLUMN_CITY, city);
         values.put(UserEntry.COLUMN_EMAIL, email);
+        values.put(UserEntry.COLUMN_PASSWORD, password);
 
         // Definimos qué registro actualizar usando el _ID
         String selection = UserEntry._ID + " = ?";

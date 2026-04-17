@@ -24,7 +24,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         UserEntry.COLUMN_PHONE + " TEXT NOT NULL, " +
         UserEntry.COLUMN_ADDRESS + " TEXT NOT NULL, " +
         UserEntry.COLUMN_CITY + " TEXT NOT NULL, " +
-        UserEntry.COLUMN_EMAIL + " TEXT NOT NULL);";
+        UserEntry.COLUMN_EMAIL + " TEXT NOT NULL, " +
+        UserEntry.COLUMN_PASSWORD + " TEXT NOT NULL);";
 
     // Sentencia SQL para crear la tabla de Mascotas (Pets)
     private static final String SQL_CREATE_PETS_TABLE = 

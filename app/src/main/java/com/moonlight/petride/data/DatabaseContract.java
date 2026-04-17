@@ -19,6 +19,7 @@ public final class DatabaseContract {
         public static final String COLUMN_ADDRESS = "address";
         public static final String COLUMN_CITY = "city";
         public static final String COLUMN_EMAIL = "email";
+        public static final String COLUMN_PASSWORD = "password";
     }
 
     /* Definición de la tabla Pet */
