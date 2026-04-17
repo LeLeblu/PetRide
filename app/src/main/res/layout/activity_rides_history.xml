@@ -8,6 +8,8 @@
     android:padding="16dp">
 
     <!-- Título -->
+
+    <!-- Lista -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +21,6 @@
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
-    <!-- Lista -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
