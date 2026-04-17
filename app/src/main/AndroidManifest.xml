@@ -11,6 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PetRide">
+
+        <!-- LoginActivity configurada como punto de entrada (Launcher) -->
+        <activity
+            android:name=".screens.authentication.login.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".screens.rides.request_ride.RequestRideActivity"
             android:exported="false" />
@@ -38,18 +49,10 @@
         <activity
             android:name=".screens.authentication.signup.SignupActivity"
             android:exported="false" />
-        <activity
-            android:name=".screens.authentication.login.LoginActivity"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

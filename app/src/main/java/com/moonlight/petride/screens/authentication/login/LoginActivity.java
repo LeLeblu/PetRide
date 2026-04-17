@@ -9,10 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.moonlight.petride.MainActivity;
 import com.moonlight.petride.R;
 import com.moonlight.petride.data.UserDAO;
 import com.moonlight.petride.screens.authentication.signup.SignupActivity;
+import com.moonlight.petride.screens.home.HomeActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // 1. Vincular los componentes Java con los del XML (IDs definidos en activity_login.xml)
+        // Vincular los componentes Java con los del XML
         etEmail = findViewById(R.id.etEmailLogin);
         etPassword = findViewById(R.id.etPasswordLogin);
         btnLogin = findViewById(R.id.btnLogin);
@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         // Inicializar el DAO
         userDAO = new UserDAO(this);
 
-        // 2. Configurar el evento clic del botón de Login
+        // Configurar el evento clic del botón de Login
         btnLogin.setOnClickListener(v -> {
             iniciarSesion();
         });
@@ -51,28 +51,33 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void iniciarSesion() {
-        // Obtener texto de los campos
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        // 3. Validación básica de campos vacíos
+        // Validación básica
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Por favor, ingresa tu correo y contraseña", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 4. Verificar credenciales usando el UserDAO
+        // Verificar credenciales en la DB
         boolean isSuccess = userDAO.checkUserCredentials(email, password);
 
         if (isSuccess) {
-            // Si son correctas, informamos al usuario y vamos a la pantalla principal
             Toast.makeText(this, "¡Bienvenido a PetRide!", Toast.LENGTH_SHORT).show();
             
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            // --- Lógica de Navegación y Backstack ---
+            
+            // Creamos un Intent para pasar del Login al Home (Pantalla principal)
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
-            finish(); // Cerramos el Login para que no regrese al presionar "atrás"
+            
+            // El método finish() destruye la actividad actual (LoginActivity).
+            // Al hacer esto, la eliminamos de la "pila" de actividades (backstack).
+            // Esto garantiza que si el usuario presiona el botón "Atrás", 
+            // no regresará al Login, sino que saldrá de la aplicación.
+            finish(); 
         } else {
-            // Si fallan, mostramos un mensaje de error
             Toast.makeText(this, "Correo o contraseña incorrectos", Toast.LENGTH_LONG).show();
         }
     }
