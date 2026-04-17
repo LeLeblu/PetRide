@@ -118,7 +118,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/mapa_ejemplo"
+                android:src="@drawable/ic_mapa"
                 android:scaleType="centerCrop"
                 android:contentDescription="Mapa de ubicación"
                 tools:ignore="HardcodedText" />
