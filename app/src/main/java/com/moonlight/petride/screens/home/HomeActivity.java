@@ -12,13 +12,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.moonlight.petride.R;
-import com.moonlight.petride.screens.calendar.CalendarActivity;
 import com.moonlight.petride.screens.pets.PetsActivity;
 import com.moonlight.petride.screens.rides.RidesActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Button btnMascotas, btnPaseos, btnCalendario;
+    private Button btnMascotas, btnPaseos;
     private TextView choosAanOption;
 
     @Override
@@ -40,7 +39,6 @@ public class HomeActivity extends AppCompatActivity {
     private void vincularVistas() {
         btnMascotas = findViewById(R.id.btnMascotas);
         btnPaseos = findViewById(R.id.btnPaseos);
-        btnCalendario = findViewById(R.id.btnCalendario);
         choosAanOption = findViewById(R.id.choosAanOption);
     }
 
@@ -54,12 +52,6 @@ public class HomeActivity extends AppCompatActivity {
         // Navegación a Paseos
         btnPaseos.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, RidesActivity.class);
-            startActivity(intent);
-        });
-
-        // Navegación a Calendario
-        btnCalendario.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, CalendarActivity.class);
             startActivity(intent);
         });
     }

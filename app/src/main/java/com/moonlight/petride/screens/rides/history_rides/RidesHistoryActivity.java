@@ -70,11 +70,10 @@ public class RidesHistoryActivity extends AppCompatActivity {
 
         // INTENT IMPLÍCITO PARA ABRIR EL MARCADOR
         btnContactarse.setOnClickListener(v -> {
-            // Número de ejemplo del paseador
+            // Número de teléfono del paseador
             String numeroTelefono = "123456789"; 
             
-            // ACTION_DIAL abre el marcador con el número puesto, pero no llama automáticamente
-            // Esto es mejor para la privacidad y seguridad del usuario.
+            // Intent para abrir el teléfono
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + numeroTelefono));
             
