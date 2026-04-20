@@ -48,12 +48,12 @@
             android:id="@+id/btnMascotas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🐾 Mascotas"
-            android:textSize="18sp"
             android:layout_marginBottom="15dp"
             android:backgroundTint="?attr/colorPrimary"
-            android:textColor="?attr/colorOnPrimary"
             android:padding="12dp"
+            android:text="Mascotas"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
         <!-- BOTÓN PASEOS -->
@@ -61,12 +61,12 @@
             android:id="@+id/btnPaseos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🚶 Paseos"
-            android:textSize="18sp"
             android:layout_marginBottom="15dp"
             android:backgroundTint="?attr/colorSecondaryContainer"
-            android:textColor="?attr/colorOnSecondaryContainer"
             android:padding="12dp"
+            android:text="Paseos"
+            android:textColor="?attr/colorOnSecondaryContainer"
+            android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>
