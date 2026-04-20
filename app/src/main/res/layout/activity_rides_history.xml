@@ -8,8 +8,6 @@
     android:padding="16dp">
 
     <!-- Título -->
-
-    <!-- Lista -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,9 +22,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:ignore="ExtraText">
+        android:layout_weight="1">
+
         <LinearLayout
+            android:id="@+id/containerUltimoPaseo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -35,59 +34,80 @@
             android:padding="12dp">
 
             <TextView
+                android:id="@+id/tvMascotaHistorial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🐶 Firulais"
+                android:text="🐶 Mascota"
                 android:textColor="#1565C0"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:id="@+id/tvFechaHistorial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📅 12/04/2026"
+                android:text="📅 Fecha"
                 android:textColor="?attr/colorOnSecondaryContainer"
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:id="@+id/tvHoraHistorial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="⏰ 10:30 AM"
+                android:text="⏰ Hora"
                 android:textColor="?attr/colorOnSecondaryContainer"
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:id="@+id/tvDireccionHistorial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📍 Calle 123 #45-67"
+                android:text="📍 Dirección"
                 android:textColor="?attr/colorOnSecondaryContainer"
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:id="@+id/tvUsuarioHistorial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="👨‍ Jose Luis Bermudez"
+                android:text="👨‍ Paseador"
                 android:textColor="?attr/colorOnSecondaryContainer"
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:id="@+id/tvEstadoHistorial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Estado: Finalizado"
+                android:text="Estado: Pendiente"
                 android:textColor="?attr/colorOnSecondaryContainer"
                 tools:ignore="HardcodedText" />
 
-            <Button
-                android:id="@+id/btnVerDetalle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="?attr/colorPrimary"
-                android:text="Ver detalle"
-                android:textColor="?attr/colorOnPrimary"
-                tools:ignore="HardcodedText" />
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/btnVerDetalle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:text="Ver detalle"
+                    android:textColor="?attr/colorOnPrimary"
+                    tools:ignore="HardcodedText" />
+
+                <Button
+                    android:id="@+id/btnContactarse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Contactarse"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
+
+        </LinearLayout>
     </ScrollView>
 
     <!-- Volver -->

@@ -1,9 +1,12 @@
 package com.moonlight.petride.data.model;
 
+import java.io.Serializable;
+
 /**
  * Clase Modelo (DTO) que representa una Mascota en el sistema.
+ * Implementa Serializable para poder pasar el objeto completo entre Actividades vía Intent.
  */
-public class Pet {
+public class Pet implements Serializable {
     private long id;
     private long ownerId;
     private String name;

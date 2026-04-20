@@ -4,15 +4,15 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.moonlight.petride.R;
 
+/**
+ * CalendarActivity: Pantalla que muestra el calendario y los datos del paseo recibido.
+ */
 public class CalendarActivity extends AppCompatActivity {
 
     private CalendarView calendarView;
@@ -22,16 +22,11 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_calendar);
         
         vincularVistas();
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.calendarView), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        recibirDatosPaseo();
+        configurarEventos();
     }
 
     private void vincularVistas() {
@@ -39,5 +34,31 @@ public class CalendarActivity extends AppCompatActivity {
         tvFechaSeleccionada = findViewById(R.id.tvFechaSeleccionada);
         btnAgregarEvento = findViewById(R.id.btnAgregarEvento);
         tvVolverCalendario = findViewById(R.id.tvVolverCalendario);
+    }
+
+    /**
+     * Recibe la fecha y hora enviadas desde RidesActivity.
+     */
+    private void recibirDatosPaseo() {
+        if (getIntent() != null && getIntent().hasExtra("FECHA_PASEO")) {
+            String fecha = getIntent().getStringExtra("FECHA_PASEO");
+            String hora = getIntent().getStringExtra("HORA_PASEO");
+
+            // Mostramos los datos en el TextView de la pantalla
+            String mensaje = "Próximo paseo: " + fecha + " a las " + hora;
+            tvFechaSeleccionada.setText(mensaje);
+            
+            Toast.makeText(this, "Paseo recibido con éxito", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void configurarEventos() {
+        tvVolverCalendario.setOnClickListener(v -> finish());
+        
+        // Listener del calendario para cuando el usuario toca un día
+        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            String fechaManual = dayOfMonth + "/" + (month + 1) + "/" + year;
+            tvFechaSeleccionada.setText("Día seleccionado: " + fechaManual);
+        });
     }
 }

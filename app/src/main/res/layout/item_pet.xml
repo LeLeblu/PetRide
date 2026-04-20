@@ -10,15 +10,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <ImageView
+        <!-- Imagen Circular usando ShapeableImageView -->
+
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivPetPhoto"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_dog" />
+            android:src="@drawable/ic_dog"
+            app:shapeAppearanceOverlay="@style/CircleImage"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="2dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +36,7 @@
                 android:id="@+id/tvPetName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre de la Mascota"
+                android:text="Oreo"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -39,14 +45,14 @@
                 android:id="@+id/tvPetBreed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Raza"
+                android:text="Raza: Pitbull"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvPetAge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Edad: 0 años"
+                android:text="Edad: 2 años"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>

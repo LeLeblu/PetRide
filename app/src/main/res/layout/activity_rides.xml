@@ -13,6 +13,7 @@
         android:orientation="vertical">
 
         <!-- Título -->
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,6 +52,7 @@
 
         <EditText
             android:id="@+id/etFecha"
+            style="DatePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -112,31 +114,31 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ubicación en el mapa"
-            android:textColor="?attr/colorOnBackground"
             android:layout_marginBottom="5dp"
+            android:text="Seleccionar en el mapa"
+            android:textColor="?attr/colorOnBackground"
             tools:ignore="HardcodedText" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="?attr/colorSecondaryContainer"
-            android:layout_marginBottom="20dp">
+            android:layout_height="100dp"
+            android:layout_marginBottom="20dp"
+            android:background="?attr/colorSecondaryContainer">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_mapa"
-                android:scaleType="centerCrop"
+                android:layout_height="98dp"
                 android:contentDescription="Mapa"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_mapa"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="Mapa (seleccionar ubicación)"
                 android:textColor="?attr/colorOnSecondaryContainer"
-                android:layout_gravity="center"
                 tools:ignore="HardcodedText" />
 
         </FrameLayout>
@@ -150,6 +152,13 @@
             android:text="Confirmar Paseo"
             android:textColor="?attr/colorOnPrimary"
             tools:ignore="HardcodedText,VisualLintButtonSize,TouchTargetSizeCheck" />
+
+        <Button
+            android:id="@+id/btnMisPaseos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mis paseos"
+            tools:ignore="VisualLintButtonSize" />
 
     </LinearLayout>
 
