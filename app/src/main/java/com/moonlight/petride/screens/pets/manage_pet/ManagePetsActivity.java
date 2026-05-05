@@ -1,5 +1,6 @@
 package com.moonlight.petride.screens.pets.manage_pet;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +15,7 @@ import com.moonlight.petride.data.model.Pet;
  */
 public class ManagePetsActivity extends AppCompatActivity {
 
-    private TextView tvNombreMascota, tvRaza, tvEdad, tvDireccion, tvCiudad, tvCuidados, tvVolver;
+    private TextView tvNombreMascota, tvRaza, tvEdad, tvCuidados, tvVolver;
     private Button btnEditar, btnEliminar;
     private Pet pet; // Objeto que recibirá los datos
 
@@ -32,8 +33,6 @@ public class ManagePetsActivity extends AppCompatActivity {
         tvNombreMascota = findViewById(R.id.tvNombreMascota);
         tvRaza = findViewById(R.id.tvRaza);
         tvEdad = findViewById(R.id.tvEdad);
-        tvDireccion = findViewById(R.id.tvDireccion); // Asegúrate de que existan en el modelo o base de datos si quieres llenarlos
-        tvCiudad = findViewById(R.id.tvCiudad);
         tvCuidados = findViewById(R.id.tvCuidados);
         tvVolver = findViewById(R.id.tvVolver);
         btnEditar = findViewById(R.id.btnEditar);
@@ -60,16 +59,12 @@ public class ManagePetsActivity extends AppCompatActivity {
     /**
      * Llena los componentes de la UI con la información del objeto Pet.
      */
+    @SuppressLint("SetTextI18n")
     private void mostrarDatos() {
         tvNombreMascota.setText(pet.getName());
         tvRaza.setText("Raza: " + pet.getBreed());
         tvEdad.setText("Edad: " + pet.getAge() + " años");
         tvCuidados.setText("Cuidados especiales: " + pet.getCareTips());
-        
-        // Nota: Si el modelo Pet no tiene dirección o ciudad, 
-        // podrías dejarlos con valores por defecto o quitarlos del XML si no se usan.
-        tvDireccion.setText("Dirección: No especificada");
-        tvCiudad.setText("Ciudad: No especificada");
     }
 
     private void configurarBotones() {

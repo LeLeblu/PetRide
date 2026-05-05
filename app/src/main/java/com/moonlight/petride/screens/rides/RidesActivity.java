@@ -13,8 +13,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.moonlight.petride.R;
-import com.moonlight.petride.data.PetDAO;
-import com.moonlight.petride.data.SessionDAO;
 import com.moonlight.petride.data.model.Pet;
 import com.moonlight.petride.screens.rides.history_rides.RidesHistoryActivity;
 
@@ -24,7 +22,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * RidesActivity: Pantalla para solicitar un paseo.
+ * Pantalla para solicitar un paseo.
+ * Datos simulados para mantener el flujo de la interfaz.
  */
 public class RidesActivity extends AppCompatActivity {
 
@@ -32,8 +31,7 @@ public class RidesActivity extends AppCompatActivity {
     private EditText etFecha, etHora, etDireccionPaseo;
     private Button btnConfirmarPaseo, btnMisPaseos;
 
-    private PetDAO petDAO;
-    private SessionDAO sessionDAO;
+    // Lista simulada de mascotas para el Spinner
     private List<Pet> listaMascotas;
 
     private int anio, mes, dia, hora, minuto;
@@ -43,11 +41,11 @@ public class RidesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rides);
         
-        petDAO = new PetDAO(this);
-        sessionDAO = new SessionDAO(this);
-
         vincularVistas();
-        poblarSpinnerMascotas();
+        
+        // Datos simulados para datos de prueba
+        poblarSpinnerMascotasSimulado();
+        
         configurarSeleccionadores();
         configurarBotonConfirmar();
         configurarBotonMisPaseos();
@@ -62,24 +60,28 @@ public class RidesActivity extends AppCompatActivity {
         btnMisPaseos = findViewById(R.id.btnMisPaseos);
     }
 
-    private void poblarSpinnerMascotas() {
-        long userId = sessionDAO.getLoggedUserId();
-        if (userId != -1) {
-            listaMascotas = petDAO.getPetsByUserId(userId);
-            List<String> nombresMascotas = new ArrayList<>();
-            if (listaMascotas.isEmpty()) {
-                nombresMascotas.add("No tienes mascotas registradas");
-                btnConfirmarPaseo.setEnabled(false);
-            } else {
-                for (Pet p : listaMascotas) {
-                    nombresMascotas.add(p.getName());
-                }
-                btnConfirmarPaseo.setEnabled(true);
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nombresMascotas);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spMascotas.setAdapter(adapter);
+    /**
+     * Lista estatica de mascotas simuladas.
+     */
+    private void poblarSpinnerMascotasSimulado() {
+        listaMascotas = new ArrayList<>();
+        
+        // Agregamos mascotas de ejemplo para que la UI sea funcional
+        listaMascotas.add(new Pet(1, 1, "Firulais", "Golden Retriever", 3, "", ""));
+        listaMascotas.add(new Pet(2, 1, "Rex", "Pastor Alemán", 5, "", ""));
+
+        List<String> nombresMascotas = new ArrayList<>();
+        for (Pet p : listaMascotas) {
+            nombresMascotas.add(p.getName());
         }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, 
+                android.R.layout.simple_spinner_item, nombresMascotas);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spMascotas.setAdapter(adapter);
+        
+        // Aseguramos que el botón esté habilitado en el modo diseño
+        btnConfirmarPaseo.setEnabled(true);
     }
 
     private void configurarSeleccionadores() {
@@ -112,28 +114,25 @@ public class RidesActivity extends AppCompatActivity {
 
     private void configurarBotonConfirmar() {
         btnConfirmarPaseo.setOnClickListener(v -> {
-            if (listaMascotas == null || listaMascotas.isEmpty()) {
-                Toast.makeText(this, "Primero registra una mascota", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             String fecha = etFecha.getText().toString();
             String horaText = etHora.getText().toString();
             String direccion = etDireccionPaseo.getText().toString();
             
-            int posicion = spMascotas.getSelectedItemPosition();
-            Pet mascotaSeleccionada = listaMascotas.get(posicion);
+            // Obtenemos el nombre seleccionado del Spinner
+            String nombreMascota = spMascotas.getSelectedItem() != null ? 
+                    spMascotas.getSelectedItem().toString() : "Mascota";
 
             if (fecha.isEmpty() || horaText.isEmpty() || direccion.isEmpty()) {
                 Toast.makeText(this, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // NAVEGACIÓN: Mantenemos el flujo hacia el historial pasando los datos por Intent
             Intent intent = new Intent(RidesActivity.this, RidesHistoryActivity.class);
             intent.putExtra("FECHA_PASEO", fecha);
             intent.putExtra("HORA_PASEO", horaText);
             intent.putExtra("DIRECCION_PASEO", direccion);
-            intent.putExtra("NOMBRE_MASCOTA", mascotaSeleccionada.getName());
+            intent.putExtra("NOMBRE_MASCOTA", nombreMascota);
             
             startActivity(intent);
         });
@@ -141,7 +140,6 @@ public class RidesActivity extends AppCompatActivity {
 
     private void configurarBotonMisPaseos() {
         btnMisPaseos.setOnClickListener(v -> {
-            // Simplemente navegamos al historial sin pasar datos extras
             Intent intent = new Intent(RidesActivity.this, RidesHistoryActivity.class);
             startActivity(intent);
         });

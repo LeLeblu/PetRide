@@ -10,51 +10,33 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.moonlight.petride.R;
-import com.moonlight.petride.data.SessionDAO;
-import com.moonlight.petride.data.UserDAO;
 import com.moonlight.petride.screens.authentication.signup.SignupActivity;
 import com.moonlight.petride.screens.home.HomeActivity;
 
+/**
+ * LoginActivity: Refactorizada para eliminar lógica de base de datos.
+ * Ahora permite el acceso directo para facilitar pruebas de UI.
+ */
 public class LoginActivity extends AppCompatActivity {
 
-    // Variables para los componentes de la interfaz
     private EditText etEmail, etPassword;
     private Button btnLogin;
     private TextView tvSignup;
 
-    // DAOs para interactuar con la base de datos
-    private UserDAO userDAO;
-    private SessionDAO sessionDAO;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // --- ENRUTAMIENTO INICIAL (Manejo de Sesión) ---
-        // Instanciamos el SessionDAO para verificar si ya existe un usuario logueado.
-        sessionDAO = new SessionDAO(this);
-        long loggedUserId = sessionDAO.getLoggedUserId();
-
-        // Si el ID es diferente de -1, significa que hay una sesión activa.
-        if (loggedUserId != -1) {
-            irAHome();
-            return; // Detenemos la ejecución para no mostrar el layout de Login
-        }
-
         setContentView(R.layout.activity_login);
 
-        // Vincular los componentes Java con los del XML
+        // Vincular componentes
         etEmail = findViewById(R.id.etEmailLogin);
         etPassword = findViewById(R.id.etPasswordLogin);
         btnLogin = findViewById(R.id.btnLogin);
         tvSignup = findViewById(R.id.tvSignup);
 
-        // Inicializar el UserDAO
-        userDAO = new UserDAO(this);
-
         // Configurar el evento clic del botón de Login
         btnLogin.setOnClickListener(v -> {
-            iniciarSesion();
+            iniciarSesionSimulada();
         });
 
         // Configurar el texto para ir a la pantalla de Registro
@@ -64,41 +46,27 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void iniciarSesion() {
+    /**
+     * Simula el inicio de sesión sin consultar base de datos.
+     */
+    private void iniciarSesionSimulada() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        // Validación básica
+        // Validación visual básica
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Por favor, ingresa tu correo y contraseña", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Verificar credenciales en la DB y obtener el ID del usuario
-        long userId = userDAO.checkUserCredentials(email, password);
-
-        if (userId != -1) {
-            // Guardamos la sesión en SQLite usando nuestro SessionDAO
-            sessionDAO.login(userId);
-
-            Toast.makeText(this, "¡Bienvenido a PetRide!", Toast.LENGTH_SHORT).show();
-            irAHome();
-        } else {
-            Toast.makeText(this, "Correo o contraseña incorrectos", Toast.LENGTH_LONG).show();
-        }
+        // LÓGICA DE DISEÑO: Aceptamos cualquier credencial para navegar al Home
+        Toast.makeText(this, "¡Bienvenido a PetRide! (Modo Diseño)", Toast.LENGTH_SHORT).show();
+        irAHome();
     }
 
-    /**
-     * Método centralizado para navegar hacia la pantalla principal y cerrar la actual.
-     */
     private void irAHome() {
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
-        
-        // El método finish() destruye la actividad actual (LoginActivity).
-        // Al hacer esto, la eliminamos de la "pila" de actividades (backstack).
-        // Esto garantiza que si el usuario presiona el botón "Atrás", 
-        // no regresará al Login, sino que saldrá de la aplicación.
         finish();
     }
 }

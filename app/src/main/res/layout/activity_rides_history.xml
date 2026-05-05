@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,96 +20,13 @@
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
-    <ScrollView
+    <!-- RecyclerView para la lista de paseos -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRidesHistory"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:id="@+id/containerUltimoPaseo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="?attr/colorSecondaryContainer"
-            android:orientation="vertical"
-            android:padding="12dp">
-
-            <TextView
-                android:id="@+id/tvMascotaHistorial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🐶 Mascota"
-                android:textColor="#1565C0"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/tvFechaHistorial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="📅 Fecha"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/tvHoraHistorial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⏰ Hora"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/tvDireccionHistorial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="📍 Dirección"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/tvUsuarioHistorial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="👨‍ Paseador"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/tvEstadoHistorial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Estado: Pendiente"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                tools:ignore="HardcodedText" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <Button
-                    android:id="@+id/btnVerDetalle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/colorPrimary"
-                    android:text="Ver detalle"
-                    android:textColor="?attr/colorOnPrimary"
-                    tools:ignore="HardcodedText" />
-
-                <Button
-                    android:id="@+id/btnContactarse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="Contactarse"
-                    tools:ignore="HardcodedText" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
+        android:layout_weight="1"
+        tools:listitem="@layout/item_ride_history" />
 
     <!-- Volver -->
     <TextView
@@ -116,11 +34,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"
         android:minHeight="48dp"
+        android:padding="8dp"
         android:text="◀ Volver"
         android:textColor="?attr/colorPrimary"
+        android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
 </LinearLayout>

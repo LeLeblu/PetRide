@@ -9,83 +9,64 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.moonlight.petride.R;
-import com.moonlight.petride.data.PetDAO;
-import com.moonlight.petride.data.SessionDAO;
 import com.moonlight.petride.data.model.Pet;
 import com.moonlight.petride.screens.pets.add_pet.AddNewPetActivity;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * PetsActivity: Pantalla principal para visualizar la lista de mascotas del usuario logueado.
- * 
- * Conceptos clave:
- * - RecyclerView: Componente eficiente para mostrar grandes listas de datos.
- * - PetAdapter: Gestiona la creación y vinculación de las vistas de los elementos.
- * - PetDAO: Capa de datos para consultar la base de datos SQLite.
- */
+
+ // Muestra una lista de mascotas simulada -->
 public class PetsActivity extends AppCompatActivity {
 
     private RecyclerView rvPets;
     private TextView tvEmptyMessage;
     private Button btnAgregarNueva;
-    private PetAdapter petAdapter;
-    private PetDAO petDAO;
-    private SessionDAO sessionDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pets);
 
-        // 1. Inicializar DAOs para acceso a datos
-        petDAO = new PetDAO(this);
-        sessionDAO = new SessionDAO(this);
-
-        // 2. Vincular vistas del XML
+        // 1. Vincular vistas
         rvPets = findViewById(R.id.rvPets);
         tvEmptyMessage = findViewById(R.id.tvEmptyMessage);
         btnAgregarNueva = findViewById(R.id.btnAgregarNueva);
 
-        // 3. Configurar el RecyclerView
+        // 2. Configurar el RecyclerView
         rvPets.setLayoutManager(new LinearLayoutManager(this));
 
-        // 4. Configurar eventos
+        // 3. Configurar navegación
         btnAgregarNueva.setOnClickListener(v -> {
             Intent intent = new Intent(PetsActivity.this, AddNewPetActivity.class);
             startActivity(intent);
         });
 
-        // 5. Cargar datos
-        cargarMascotas();
+        // 4. Cargar datos simulados
+        cargarMascotasSimuladas();
     }
 
-    private void cargarMascotas() {
-        // Obtenemos el ID del usuario que tiene la sesión activa
-        long userId = sessionDAO.getLoggedUserId();
+    private void cargarMascotasSimuladas() {
+        // LÓGICA DE DISEÑO: Creamos una lista ficticia para visualizar el RecyclerView
+        List<Pet> pets = new ArrayList<>();
+        pets.add(new Pet(1, 1, "Firulais", "Golden Retriever", 3, "Mucho amor", ""));
+        pets.add(new Pet(2, 1, "Rex", "Pastor Alemán", 5, "Ejercicio diario", ""));
 
-        if (userId != -1) {
-            // Consultamos la lista de mascotas filtrada por el ID del dueño
-            List<Pet> pets = petDAO.getPetsByUserId(userId);
+        if (pets.isEmpty()) {
+            tvEmptyMessage.setVisibility(View.VISIBLE);
+            rvPets.setVisibility(View.GONE);
+        } else {
+            tvEmptyMessage.setVisibility(View.GONE);
+            rvPets.setVisibility(View.VISIBLE);
 
-            // Gestionamos la visibilidad del mensaje de lista vacía
-            if (pets.isEmpty()) {
-                tvEmptyMessage.setVisibility(View.VISIBLE);
-                rvPets.setVisibility(View.GONE);
-            } else {
-                tvEmptyMessage.setVisibility(View.GONE);
-                rvPets.setVisibility(View.VISIBLE);
-
-                // Inicializamos y asignamos el adaptador al RecyclerView
-                petAdapter = new PetAdapter(pets);
-                rvPets.setAdapter(petAdapter);
-            }
+            PetAdapter petAdapter = new PetAdapter(pets);
+            rvPets.setAdapter(petAdapter);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Recargamos la lista al volver a la actividad por si se añadió una mascota nueva
-        cargarMascotas();
+        // En modo diseño, mantenemos la carga simulada
+        cargarMascotasSimuladas();
     }
 }

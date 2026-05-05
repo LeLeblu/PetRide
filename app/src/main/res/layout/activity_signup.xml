@@ -44,6 +44,30 @@
             android:minHeight="48dp"
             tools:ignore="HardcodedText" />
 
+        <!-- Dirección -->
+        <EditText
+            android:id="@+id/etDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:autofillHints=""
+            android:hint="Dirección"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText" />
+
+        <!-- Ciudad -->
+        <EditText
+            android:id="@+id/etCiudad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:autofillHints=""
+            android:hint="Ciudad"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText" />
+
         <!-- Correo -->
         <EditText
             android:id="@+id/etCorreo"
@@ -65,7 +89,8 @@
             android:autofillHints=""
             android:hint="Contraseña"
             android:inputType="textPassword"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            tools:ignore="HardcodedText" />
 
         <!-- Confirmar contraseña -->
         <EditText

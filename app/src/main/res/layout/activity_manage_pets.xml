@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,144 +11,126 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
-        <!-- Título -->
+        <!-- Encabezado: Título y Separador -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
+            android:paddingVertical="10dp"
             android:text="Gestionar Mascota"
             android:textColor="?attr/colorPrimary"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
-        <!-- Línea -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_marginBottom="15dp"
+            android:layout_height="2dp"
+            android:layout_marginBottom="20dp"
             android:background="?attr/colorPrimary" />
 
-        <!-- Imagen + Nombre -->
+        <!-- Perfil de la Mascota  -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
             android:background="?attr/colorSecondaryContainer"
-            android:padding="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp"
             android:layout_marginBottom="20dp">
 
-            <ImageView
-                android:layout_width="90dp"
-                android:layout_height="match_parent"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivPetPhotoDetail"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_dog"
-                android:contentDescription="Imagen de la mascota"
-                tools:ignore="HardcodedText" />
+                app:shapeAppearanceOverlay="@style/CircleImage"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="2dp" />
 
             <TextView
                 android:id="@+id/tvNombreMascota"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
                 android:text="Nombre mascota"
                 android:textColor="?attr/colorOnSecondaryContainer"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
-                android:gravity="center"
                 tools:ignore="HardcodedText" />
-
         </LinearLayout>
 
-        <!-- Información -->
+        <!-- Bloque de Información Detallada -->
         <TextView
             android:id="@+id/tvRaza"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Raza:"
-            android:textColor="?attr/colorOnBackground"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="8dp"
+            android:text="Raza: "
+            android:textSize="16sp"
             tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/tvEdad"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edad:"
-            android:textColor="?attr/colorOnBackground"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="8dp"
+            android:text="Edad: "
+            android:textSize="16sp"
             tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/tvDireccion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dirección:"
-            android:textColor="?attr/colorOnBackground"
-            android:layout_marginBottom="5dp"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/tvCiudad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:text="Ciudad:"
-            android:textColor="?attr/colorOnBackground"
-            tools:ignore="HardcodedText" />
-
-        <!-- Botones -->
-
-        <!-- Volver -->
 
         <TextView
             android:id="@+id/tvCuidados"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:text="Cuidados especiales:"
-            android:textColor="?attr/colorOnBackground"
+            android:layout_marginBottom="24dp"
+            android:text="Cuidados especiales: "
+            android:textSize="16sp"
             tools:ignore="HardcodedText" />
 
+        <!-- Editar y Eliminar -->
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="362dp"
-            android:layout_height="74dp"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnEditar"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="120dp"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorPrimary"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
                 android:text="Editar"
-                android:textColor="?attr/colorOnPrimary"
                 tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btnEliminar"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="120dp"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:backgroundTint="?attr/colorPrimary"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
                 android:text="Eliminar"
-                android:textColor="?attr/colorOnPrimary"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
+        <!-- Navegación de regreso -->
         <TextView
             android:id="@+id/tvVolver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="◀ Volver"
-            android:textColor="#1565C0"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="◀ Volver al listado"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>
-
 </ScrollView>

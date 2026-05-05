@@ -21,13 +21,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.moonlight.petride.R;
-import com.moonlight.petride.data.PetDAO;
-import com.moonlight.petride.data.SessionDAO;
 
 /**
- * Actividad para agregar una nueva mascota.
- * Implementa validaciones y manejo de imagen mediante ActivityResultLauncher.
- * Ahora utiliza SessionDAO para obtener el ID del usuario logueado.
+ * AddNewPetActivity: Refactorizada para eliminar lógica de base de datos.
+ * Mantiene la funcionalidad de selección de imagen y validación de UI.
  */
 public class AddNewPetActivity extends AppCompatActivity {
 
@@ -37,14 +34,10 @@ public class AddNewPetActivity extends AppCompatActivity {
     private EditText etNombreMascota, etRaza, etEdad, etCareTips;
     private Button btnAgregarMascota;
 
-    private PetDAO petDAO;
-    private SessionDAO sessionDAO;
-    private long userId;
-    private String imagePath = ""; // Ruta o URI de la imagen seleccionada
+    private String imagePath = ""; // Ruta simulada
 
-    // --- REGISTRO DE LAUNCHERS ---
+    // --- REGISTRO DE LAUNCHERS (Se mantienen para diseño) ---
 
-    // 1. Launcher para Galería (Photo Picker)
     private final ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 if (uri != null) {
@@ -53,24 +46,17 @@ public class AddNewPetActivity extends AppCompatActivity {
                 }
             });
 
-    // 2. Launcher para Cámara (Retorna miniatura)
     private final ActivityResultLauncher<Void> takePicture =
             registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), bitmap -> {
                 if (bitmap != null) {
                     imgMascota.setImageBitmap(bitmap);
-                    // Simulamos un path para el ejemplo universitario
-                    imagePath = "camera_capture_" + System.currentTimeMillis();
+                    imagePath = "camera_capture_simulated";
                 }
             });
 
-    // 3. Launcher para solicitud de permisos
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    takePicture.launch(null);
-                } else {
-                    Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show();
-                }
+                if (isGranted) takePicture.launch(null);
             });
 
     @Override
@@ -79,31 +65,17 @@ public class AddNewPetActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_new_pet);
 
-        // Ajuste de padding para EdgeToEdge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // REQUERIMIENTO: Obtener el ID del usuario desde la sesión en SQLite
-        sessionDAO = new SessionDAO(this);
-        userId = sessionDAO.getLoggedUserId();
-        
-        // Verificación de seguridad didáctica
-        if (userId == -1) {
-            Toast.makeText(this, "Error: No hay una sesión activa. Por favor, inicia sesión.", Toast.LENGTH_LONG).show();
-            finish(); // Cerramos la actividad si no hay usuario identificado
-            return;
-        }
-
-        petDAO = new PetDAO(this);
-
         vincularVistas();
         configurarSeleccionImagen();
 
         btnAgregarMascota.setOnClickListener(v -> {
-            validarYGuardarMascota();
+            validarYSimularGuardado();
         });
     }
 
@@ -143,51 +115,16 @@ public class AddNewPetActivity extends AppCompatActivity {
         }
     }
 
-    private void validarYGuardarMascota() {
+    private void validarYSimularGuardado() {
         String nombre = etNombreMascota.getText().toString().trim();
-        String raza = etRaza.getText().toString().trim();
-        String edadStr = etEdad.getText().toString().trim();
-        String cuidados = etCareTips.getText().toString().trim();
 
         if (nombre.isEmpty()) {
             etNombreMascota.setError("El nombre es obligatorio");
             return;
         }
 
-        if (raza.isEmpty()) {
-            etRaza.setError("La raza es obligatoria");
-            return;
-        }
-
-        if (edadStr.isEmpty()) {
-            etEdad.setError("La edad es obligatoria");
-            return;
-        }
-
-        if (imagePath.isEmpty()) {
-            Toast.makeText(this, "Por favor, selecciona una foto", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        int edad;
-        try {
-            edad = Integer.parseInt(edadStr);
-        } catch (NumberFormatException e) {
-            etEdad.setError("Edad inválida");
-            return;
-        }
-
-        // Ahora el userId viene directamente del SessionDAO (SQLite), garantizando que la FK sea correcta.
-        Log.d(TAG, "Intentando insertar mascota para USER_ID: " + userId);
-        
-        long id = petDAO.insertPet(userId, nombre, raza, edad, cuidados, imagePath);
-
-        if (id != -1) {
-            Toast.makeText(this, "¡" + nombre + " se ha registrado con éxito!", Toast.LENGTH_LONG).show();
-            finish();
-        } else {
-            Log.e(TAG, "Error al insertar en SQLite. FK Violation o error de BD.");
-            Toast.makeText(this, "Error: No se pudo guardar la mascota.", Toast.LENGTH_LONG).show();
-        }
+        // ÉXITO SIMULADO (Modo Diseño)
+        Toast.makeText(this, "¡" + nombre + " se ha registrado (Simulado)!", Toast.LENGTH_LONG).show();
+        finish();
     }
 }
