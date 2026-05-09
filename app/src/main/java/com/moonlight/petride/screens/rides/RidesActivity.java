@@ -1,6 +1,8 @@
 package com.moonlight.petride.screens.rides;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -26,6 +28,7 @@ import com.moonlight.petride.data.model.Pet;
 import com.moonlight.petride.screens.rides.history_rides.RidesHistoryActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class RidesActivity extends AppCompatActivity {
@@ -54,6 +57,7 @@ public class RidesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rides);
         
         vincularVistas();
+        configurarSelectoresFechaHora();
         poblarSpinnerMascotas();
         configurarNavegacion();
     }
@@ -68,6 +72,48 @@ public class RidesActivity extends AppCompatActivity {
         flMapaIndicador = findViewById(R.id.flMapaIndicador);
         tvVolverHome = findViewById(R.id.tvVolverHome);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+    }
+
+    private void configurarSelectoresFechaHora() {
+        // Abre el selector de fecha y carga el valor elegido en el campo.
+        etFecha.setOnClickListener(v -> {
+            Calendar calendario = Calendar.getInstance();
+            int anioActual = calendario.get(Calendar.YEAR);
+            int mesActual = calendario.get(Calendar.MONTH);
+            int diaActual = calendario.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    RidesActivity.this,
+                    (view, year, month, dayOfMonth) -> {
+                        String fechaFormateada = String.format("%02d/%02d/%d", dayOfMonth, month + 1, year);
+                        etFecha.setText(fechaFormateada);
+                    },
+                    anioActual,
+                    mesActual,
+                    diaActual
+            );
+            datePickerDialog.show();
+        });
+
+        // Abre el selector de hora y carga el valor elegido en el campo.
+        etHora.setOnClickListener(v -> {
+            Calendar calendario = Calendar.getInstance();
+            int horaActual = calendario.get(Calendar.HOUR_OF_DAY);
+            int minutoActual = calendario.get(Calendar.MINUTE);
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(
+                    RidesActivity.this,
+                    (view, hourOfDay, minute) -> {
+                        String minutoConCero = minute < 10 ? "0" + minute : String.valueOf(minute);
+                        String horaFormateada = hourOfDay + ":" + minutoConCero;
+                        etHora.setText(horaFormateada);
+                    },
+                    horaActual,
+                    minutoActual,
+                    true
+            );
+            timePickerDialog.show();
+        });
     }
 
     private void poblarSpinnerMascotas() {
