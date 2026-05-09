@@ -1,14 +1,25 @@
 package com.moonlight.petride.screens.rides;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.moonlight.petride.R;
 import com.moonlight.petride.data.model.Pet;
@@ -22,8 +33,20 @@ public class RidesActivity extends AppCompatActivity {
     private Spinner spMascotas;
     private EditText etFecha, etHora, etDireccionPaseo;
     private Button btnConfirmarPaseo, btnMisPaseos;
+    private FrameLayout flMapaIndicador;
     private TextView tvVolverHome;
     private List<Pet> listaMascotas;
+    private LocationManager locationManager;
+
+    // Solicita permiso de ubicación cuando el usuario lo necesita.
+    private final ActivityResultLauncher<String> requestLocationPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    obtenerUbicacionActual();
+                } else {
+                    Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +65,9 @@ public class RidesActivity extends AppCompatActivity {
         etDireccionPaseo = findViewById(R.id.etDireccionPaseo);
         btnConfirmarPaseo = findViewById(R.id.btnConfirmarPaseo);
         btnMisPaseos = findViewById(R.id.btnMisPaseos);
+        flMapaIndicador = findViewById(R.id.flMapaIndicador);
         tvVolverHome = findViewById(R.id.tvVolverHome);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
     }
 
     private void poblarSpinnerMascotas() {
@@ -72,8 +97,53 @@ public class RidesActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // El mapa funciona como acceso rápido para cargar coordenadas actuales.
+        flMapaIndicador.setOnClickListener(v -> obtenerUbicacionActual());
+
         tvVolverHome.setOnClickListener(v -> {
             finish();
         });
+    }
+
+    private void obtenerUbicacionActual() {
+        // Verifica permiso nativo de ubicación.
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+            return;
+        }
+
+        String provider = null;
+        // Prioriza GPS y usa red como respaldo.
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            provider = LocationManager.GPS_PROVIDER;
+        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            provider = LocationManager.NETWORK_PROVIDER;
+        }
+
+        if (provider == null) {
+            Toast.makeText(this, "Activa GPS o red para obtener ubicación", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Location lastLocation = locationManager.getLastKnownLocation(provider);
+        if (lastLocation != null) {
+            colocarCoordenadasEnCampo(lastLocation);
+            return;
+        }
+
+        // Si no hay última ubicación, pide una actualización simple.
+        locationManager.requestSingleUpdate(provider, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                colocarCoordenadasEnCampo(location);
+            }
+        }, Looper.getMainLooper());
+    }
+
+    private void colocarCoordenadasEnCampo(Location location) {
+        String coordenadas = location.getLatitude() + ", " + location.getLongitude();
+        etDireccionPaseo.setText(coordenadas);
+        Toast.makeText(this, "Ubicación agregada", Toast.LENGTH_SHORT).show();
     }
 }

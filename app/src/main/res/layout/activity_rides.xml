@@ -110,25 +110,20 @@
             android:textColorHint="#2E7D32"
             tools:ignore="HardcodedText,VisualLintTextFieldSize" />
 
-        <!-- Mapa -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="Seleccionar en el mapa"
-            android:textColor="?attr/colorOnBackground"
-            tools:ignore="HardcodedText" />
-
+        <!-- Indicador visual de mapa: también permite usar ubicación actual -->
         <FrameLayout
+            android:id="@+id/flMapaIndicador"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginBottom="20dp"
-            android:background="?attr/colorSecondaryContainer">
+            android:background="?attr/colorSecondaryContainer"
+            android:clickable="true"
+            android:focusable="true">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="98dp"
-                android:contentDescription="Mapa"
+                android:contentDescription="Mapa de referencia"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_mapa"
                 tools:ignore="HardcodedText" />
@@ -137,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Mapa (seleccionar ubicación)"
+                android:text="Toca el mapa para usar tu ubicación actual"
                 android:textColor="?attr/colorOnSecondaryContainer"
                 tools:ignore="HardcodedText" />
 

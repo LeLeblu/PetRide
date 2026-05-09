@@ -1,6 +1,8 @@
 package com.moonlight.petride.screens.rides.history_rides;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +41,10 @@ public class RideHistoryAdapter extends RecyclerView.Adapter<RideHistoryAdapter.
         holder.tvEstado.setText("Estado: " + ride.getStatus());
 
         holder.btnContactarse.setOnClickListener(v -> {
-            // No hace nada por ahora
+            // Abre el marcador con el número del paseador ya cargado.
+            Intent intentDial = new Intent(Intent.ACTION_DIAL);
+            intentDial.setData(Uri.parse("tel:" + ride.getWalkerPhone()));
+            v.getContext().startActivity(intentDial);
         });
     }
 

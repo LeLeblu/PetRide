@@ -41,8 +41,8 @@ public class RidesHistoryActivity extends AppCompatActivity {
 
     private void cargarDatosSimulados() {
         List<RideHistory> rides = new ArrayList<>();
-        rides.add(new RideHistory("Firulais", "2023-10-25", "10:00 AM", "Parque Central", "Completado"));
-        rides.add(new RideHistory("Rex", "2023-10-26", "02:00 PM", "Plaza de la Paz", "Pendiente"));
+        rides.add(new RideHistory("Firulais", "2023-10-25", "10:00 AM", "Parque Central", "Completado", "3001234567"));
+        rides.add(new RideHistory("Rex", "2023-10-26", "02:00 PM", "Plaza de la Paz", "Pendiente", "3019876543"));
         
         adapter = new RideHistoryAdapter(rides);
         rvRidesHistory.setAdapter(adapter);
