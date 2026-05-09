@@ -2,12 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permisos necesarios para la cámara -->
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- Declaramos que la app usa la cámara para que Google Play lo sepa -->
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PetRide">
 
-        <!-- LoginActivity configurada como punto de entrada (Launcher) -->
         <activity
             android:name=".screens.authentication.login.LoginActivity"
             android:exported="true">
@@ -39,9 +32,6 @@
             android:exported="false" />
         <activity
             android:name=".screens.home.HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".screens.calendar.CalendarActivity"
             android:exported="false" />
         <activity
             android:name=".screens.rides.RidesActivity"

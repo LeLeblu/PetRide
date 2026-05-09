@@ -14,12 +14,10 @@ import com.moonlight.petride.screens.pets.add_pet.AddNewPetActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-
- // Muestra una lista de mascotas simulada -->
 public class PetsActivity extends AppCompatActivity {
 
     private RecyclerView rvPets;
-    private TextView tvEmptyMessage;
+    private TextView tvEmptyMessage, tvVolverHome;
     private Button btnAgregarNueva;
 
     @Override
@@ -27,26 +25,26 @@ public class PetsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pets);
 
-        // 1. Vincular vistas
         rvPets = findViewById(R.id.rvPets);
         tvEmptyMessage = findViewById(R.id.tvEmptyMessage);
         btnAgregarNueva = findViewById(R.id.btnAgregarNueva);
+        tvVolverHome = findViewById(R.id.tvVolverHome);
 
-        // 2. Configurar el RecyclerView
         rvPets.setLayoutManager(new LinearLayoutManager(this));
 
-        // 3. Configurar navegación
         btnAgregarNueva.setOnClickListener(v -> {
             Intent intent = new Intent(PetsActivity.this, AddNewPetActivity.class);
             startActivity(intent);
         });
 
-        // 4. Cargar datos simulados
+        tvVolverHome.setOnClickListener(v -> {
+            finish();
+        });
+
         cargarMascotasSimuladas();
     }
 
     private void cargarMascotasSimuladas() {
-        // LÓGICA DE DISEÑO: Creamos una lista ficticia para visualizar el RecyclerView
         List<Pet> pets = new ArrayList<>();
         pets.add(new Pet(1, 1, "Firulais", "Golden Retriever", 3, "Mucho amor", ""));
         pets.add(new Pet(2, 1, "Rex", "Pastor Alemán", 5, "Ejercicio diario", ""));
@@ -66,7 +64,6 @@ public class PetsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // En modo diseño, mantenemos la carga simulada
         cargarMascotasSimuladas();
     }
 }

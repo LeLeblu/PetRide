@@ -1,7 +1,6 @@
 package com.moonlight.petride.screens.rides.history_rides;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,9 +9,6 @@ import com.moonlight.petride.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * RidesHistoryActivity: Pantalla que muestra el historial de paseos.
- */
 public class RidesHistoryActivity extends AppCompatActivity {
 
     private RecyclerView rvRidesHistory;

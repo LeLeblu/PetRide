@@ -3,14 +3,11 @@ package com.moonlight.petride.screens.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.moonlight.petride.R;
 import com.moonlight.petride.screens.pets.PetsActivity;
 import com.moonlight.petride.screens.rides.RidesActivity;
@@ -18,7 +15,6 @@ import com.moonlight.petride.screens.rides.RidesActivity;
 public class HomeActivity extends AppCompatActivity {
 
     private Button btnMascotas, btnPaseos;
-    private TextView choosAanOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +35,14 @@ public class HomeActivity extends AppCompatActivity {
     private void vincularVistas() {
         btnMascotas = findViewById(R.id.btnMascotas);
         btnPaseos = findViewById(R.id.btnPaseos);
-        choosAanOption = findViewById(R.id.choosAanOption);
     }
 
     private void configurarNavegacion() {
-        // Navegación a Mascotas
         btnMascotas.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, PetsActivity.class);
             startActivity(intent);
         });
 
-        // Navegación a Paseos
         btnPaseos.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, RidesActivity.class);
             startActivity(intent);

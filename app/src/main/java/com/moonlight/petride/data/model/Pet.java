@@ -2,10 +2,6 @@ package com.moonlight.petride.data.model;
 
 import java.io.Serializable;
 
-/**
- * Clase Modelo Pet: Define la estructura de una mascota para la UI.
- * Implementa Serializable para permitir el paso de datos entre Activities.
- */
 public class Pet implements Serializable {
     private long id;
     private long ownerId;
@@ -27,7 +23,6 @@ public class Pet implements Serializable {
         this.imagePath = imagePath;
     }
 
-    // Getters y Setters
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 

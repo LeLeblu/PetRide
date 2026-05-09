@@ -108,6 +108,22 @@
             android:backgroundTint="?attr/colorPrimary"
             android:textColor="?attr/colorOnPrimary"/>
 
+        <!-- Volver -->
+        <TextView
+            android:id="@+id/tvVolverMisMascotas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:text="◀ Volver"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
     </LinearLayout>
 
 </ScrollView>

@@ -1,5 +1,6 @@
 package com.moonlight.petride.screens.pets;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.moonlight.petride.R;
 import com.moonlight.petride.data.model.Pet;
+import com.moonlight.petride.screens.pets.manage_pet.ManagePetsActivity;
 import java.util.List;
 
 public class PetAdapter extends RecyclerView.Adapter<PetAdapter.ViewHolder> {
@@ -31,6 +33,12 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.ViewHolder> {
         holder.tvPetName.setText(pet.getName());
         holder.tvPetBreed.setText("Raza: " + pet.getBreed());
         holder.tvPetAge.setText("Edad: " + pet.getAge() + " años");
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), ManagePetsActivity.class);
+            intent.putExtra("PET_DATA", pet);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
