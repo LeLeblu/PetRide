@@ -63,20 +63,11 @@
             android:layout_marginTop="8dp">
 
             <Button
-                android:id="@+id/btnVerDetalle"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ver detalle"
-                tools:ignore="HardcodedText" />
-
-            <Button
                 android:id="@+id/btnContactarse"
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Contactarse"
+                android:text="📞 Contactarse"
                 tools:ignore="HardcodedText" />
 
         </LinearLayout>
