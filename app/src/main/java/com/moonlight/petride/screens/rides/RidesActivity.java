@@ -24,7 +24,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.moonlight.petride.R;
+import com.moonlight.petride.data.PetDAO;
+import com.moonlight.petride.data.RideDAO;
+import com.moonlight.petride.data.SessionDAO;
 import com.moonlight.petride.data.model.Pet;
+import com.moonlight.petride.screens.authentication.login.LoginActivity;
 import com.moonlight.petride.screens.rides.history_rides.RidesHistoryActivity;
 
 import java.util.ArrayList;
@@ -40,6 +44,9 @@ public class RidesActivity extends AppCompatActivity {
     private TextView tvVolverHome;
     private List<Pet> listaMascotas;
     private LocationManager locationManager;
+    private PetDAO petDAO;
+    private RideDAO rideDAO;
+    private SessionDAO sessionDAO;
 
     // Solicita permiso de ubicación cuando el usuario lo necesita.
     private final ActivityResultLauncher<String> requestLocationPermissionLauncher =
@@ -57,6 +64,9 @@ public class RidesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rides);
         
         vincularVistas();
+        petDAO = new PetDAO(this);
+        rideDAO = new RideDAO(this);
+        sessionDAO = new SessionDAO(this);
         configurarSelectoresFechaHora();
         poblarSpinnerMascotas();
         configurarNavegacion();
@@ -117,9 +127,15 @@ public class RidesActivity extends AppCompatActivity {
     }
 
     private void poblarSpinnerMascotas() {
-        listaMascotas = new ArrayList<>();
-        listaMascotas.add(new Pet(1, 1, "Firulais", "Golden Retriever", 3, "", ""));
-        listaMascotas.add(new Pet(2, 1, "Rex", "Pastor Alemán", 5, "", ""));
+        long userId = sessionDAO.getLoggedUserId();
+        if (userId == -1) {
+            Toast.makeText(this, "Sesion expirada. Inicia sesion de nuevo.", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
+        listaMascotas = petDAO.getPetsByUserId(userId);
 
         List<String> nombresMascotas = new ArrayList<>();
         for (Pet p : listaMascotas) {
@@ -137,8 +153,7 @@ public class RidesActivity extends AppCompatActivity {
             if (!validarCamposPaseo()) {
                 return;
             }
-            Intent intent = new Intent(RidesActivity.this, RidesHistoryActivity.class);
-            startActivity(intent);
+            guardarPaseo();
         });
 
         btnMisPaseos.setOnClickListener(v -> {
@@ -198,6 +213,7 @@ public class RidesActivity extends AppCompatActivity {
 
     private boolean validarCamposPaseo() {
         String fecha = etFecha.getText().toString().trim();
+        String hora = etHora.getText().toString().trim();
         String direccion = etDireccionPaseo.getText().toString().trim();
 
         if (listaMascotas == null || listaMascotas.isEmpty()) {
@@ -216,6 +232,12 @@ public class RidesActivity extends AppCompatActivity {
             return false;
         }
 
+        if (hora.isEmpty()) {
+            etHora.setError("La hora es obligatoria");
+            etHora.requestFocus();
+            return false;
+        }
+
         if (direccion.isEmpty()) {
             etDireccionPaseo.setError("La dirección es obligatoria");
             etDireccionPaseo.requestFocus();
@@ -229,5 +251,28 @@ public class RidesActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void guardarPaseo() {
+        int selectedIndex = spMascotas.getSelectedItemPosition();
+        Pet petSeleccionada = listaMascotas.get(selectedIndex);
+
+        String fechaHora = etFecha.getText().toString().trim() + " " + etHora.getText().toString().trim();
+        String direccion = etDireccionPaseo.getText().toString().trim();
+        String estadoInicial = "Pendiente";
+
+        long rideId = rideDAO.insertRide(petSeleccionada.getId(), fechaHora, direccion, estadoInicial);
+        if (rideId != -1) {
+            Toast.makeText(this, "Paseo registrado correctamente", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(RidesActivity.this, RidesHistoryActivity.class));
+        } else {
+            Toast.makeText(this, "No se pudo guardar el paseo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        poblarSpinnerMascotas();
     }
 }

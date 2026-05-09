@@ -5,15 +5,23 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.moonlight.petride.R;
+import com.moonlight.petride.data.SessionDAO;
+import com.moonlight.petride.data.UserDAO;
 import com.moonlight.petride.screens.authentication.login.LoginActivity;
+import com.moonlight.petride.screens.home.HomeActivity;
 
 public class SignupActivity extends AppCompatActivity {
 
     private EditText etNombre, etTelefono, etDireccion, etCiudad, etCorreo, etPassword, etConfirmPassword;
     private Button btnRegistrar;
     private TextView tvLogin;
+    private UserDAO userDAO;
+    private SessionDAO sessionDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,20 +29,41 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         vincularVistas();
+        userDAO = new UserDAO(this);
+        sessionDAO = new SessionDAO(this);
 
         btnRegistrar.setOnClickListener(v -> {
             if (!validarCamposRegistro()) {
                 return;
             }
-            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+            registrarUsuario();
         });
 
         tvLogin.setOnClickListener(v -> {
             startActivity(new Intent(SignupActivity.this, LoginActivity.class));
             finish();
         });
+    }
+
+    private void registrarUsuario() {
+        String nombre = etNombre.getText().toString().trim();
+        String telefono = etTelefono.getText().toString().trim();
+        String direccion = etDireccion.getText().toString().trim();
+        String ciudad = etCiudad.getText().toString().trim();
+        String correo = etCorreo.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+
+        long userId = userDAO.insertUser(nombre, telefono, direccion, ciudad, correo, password);
+        if (userId == -1) {
+            Toast.makeText(this, "No se pudo registrar el usuario", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Al registrarse correctamente, iniciamos sesion de inmediato.
+        sessionDAO.login(userId);
+        Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(SignupActivity.this, HomeActivity.class));
+        finish();
     }
 
     private void vincularVistas() {

@@ -5,13 +5,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.moonlight.petride.R;
+import com.moonlight.petride.data.PetDAO;
+import com.moonlight.petride.data.SessionDAO;
 import com.moonlight.petride.data.model.Pet;
+import com.moonlight.petride.screens.authentication.login.LoginActivity;
 import com.moonlight.petride.screens.pets.add_pet.AddNewPetActivity;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class PetsActivity extends AppCompatActivity {
@@ -19,6 +25,8 @@ public class PetsActivity extends AppCompatActivity {
     private RecyclerView rvPets;
     private TextView tvEmptyMessage, tvVolverHome;
     private Button btnAgregarNueva;
+    private PetDAO petDAO;
+    private SessionDAO sessionDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +37,8 @@ public class PetsActivity extends AppCompatActivity {
         tvEmptyMessage = findViewById(R.id.tvEmptyMessage);
         btnAgregarNueva = findViewById(R.id.btnAgregarNueva);
         tvVolverHome = findViewById(R.id.tvVolverHome);
+        petDAO = new PetDAO(this);
+        sessionDAO = new SessionDAO(this);
 
         rvPets.setLayoutManager(new LinearLayoutManager(this));
 
@@ -41,13 +51,19 @@ public class PetsActivity extends AppCompatActivity {
             finish();
         });
 
-        cargarMascotasSimuladas();
+        cargarMascotasDesdeSQLite();
     }
 
-    private void cargarMascotasSimuladas() {
-        List<Pet> pets = new ArrayList<>();
-        pets.add(new Pet(1, 1, "Firulais", "Golden Retriever", 3, "Mucho amor", ""));
-        pets.add(new Pet(2, 1, "Rex", "Pastor Alemán", 5, "Ejercicio diario", ""));
+    private void cargarMascotasDesdeSQLite() {
+        long userId = sessionDAO.getLoggedUserId();
+        if (userId == -1) {
+            Toast.makeText(this, "Sesion expirada. Inicia sesion de nuevo.", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
+        List<Pet> pets = petDAO.getPetsByUserId(userId);
 
         if (pets.isEmpty()) {
             tvEmptyMessage.setVisibility(View.VISIBLE);
@@ -64,6 +80,6 @@ public class PetsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        cargarMascotasSimuladas();
+        cargarMascotasDesdeSQLite();
     }
 }

@@ -1,6 +1,8 @@
 package com.moonlight.petride.screens.pets.add_pet;
 
 import android.Manifest;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
@@ -21,6 +23,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.moonlight.petride.R;
+import com.moonlight.petride.data.PetDAO;
+import com.moonlight.petride.data.SessionDAO;
+import com.moonlight.petride.screens.authentication.login.LoginActivity;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class AddNewPetActivity extends AppCompatActivity {
 
@@ -29,13 +39,20 @@ public class AddNewPetActivity extends AppCompatActivity {
     private Button btnAgregarMascota;
     private TextView tvVolverMisMascotas;
     private String imagePath = "";
+    private PetDAO petDAO;
+    private SessionDAO sessionDAO;
 
     // Abre el selector de imágenes del sistema (galería/archivos).
     private final ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 if (uri != null) {
-                    imgMascota.setImageURI(uri);
-                    imagePath = uri.toString();
+                    String rutaGuardada = guardarUriEnAlmacenInterno(uri);
+                    if (rutaGuardada != null) {
+                        imagePath = rutaGuardada;
+                        imgMascota.setImageURI(Uri.fromFile(new File(rutaGuardada)));
+                    } else {
+                        Toast.makeText(this, "No se pudo guardar la imagen seleccionada", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -43,8 +60,13 @@ public class AddNewPetActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Void> takePicture =
             registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), bitmap -> {
                 if (bitmap != null) {
-                    imgMascota.setImageBitmap(bitmap);
-                    imagePath = "camera_capture_" + System.currentTimeMillis();
+                    String rutaGuardada = guardarBitmapEnAlmacenInterno(bitmap);
+                    if (rutaGuardada != null) {
+                        imagePath = rutaGuardada;
+                        imgMascota.setImageURI(Uri.fromFile(new File(rutaGuardada)));
+                    } else {
+                        Toast.makeText(this, "No se pudo guardar la foto tomada", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -71,6 +93,8 @@ public class AddNewPetActivity extends AppCompatActivity {
         });
 
         vincularVistas();
+        petDAO = new PetDAO(this);
+        sessionDAO = new SessionDAO(this);
         configurarSeleccionImagen();
         configurarBotones();
 
@@ -81,10 +105,32 @@ public class AddNewPetActivity extends AppCompatActivity {
             if (!validarCamposMascota()) {
                 return;
             }
-            // Si pasa validaciones, continuamos con el flujo actual.
-            finish();
+            guardarMascotaEnSQLite();
         });
         tvVolverMisMascotas.setOnClickListener(v -> finish());
+    }
+
+    private void guardarMascotaEnSQLite() {
+        long userId = sessionDAO.getLoggedUserId();
+        if (userId == -1) {
+            Toast.makeText(this, "Sesion expirada. Inicia sesion de nuevo.", Toast.LENGTH_SHORT).show();
+            startActivity(new android.content.Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
+        String nombre = etNombreMascota.getText().toString().trim();
+        String raza = etRaza.getText().toString().trim();
+        int edad = Integer.parseInt(etEdad.getText().toString().trim());
+        String careTips = etCareTips.getText().toString().trim();
+
+        long id = petDAO.insertPet(userId, nombre, raza, edad, careTips, imagePath);
+        if (id != -1) {
+            Toast.makeText(this, "Mascota registrada", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "No se pudo guardar la mascota", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void vincularVistas() {
@@ -169,5 +215,37 @@ public class AddNewPetActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private String guardarBitmapEnAlmacenInterno(Bitmap bitmap) {
+        File archivo = new File(getFilesDir(), "pet_" + System.currentTimeMillis() + ".jpg");
+        try (FileOutputStream outputStream = new FileOutputStream(archivo)) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+            outputStream.flush();
+            return archivo.getAbsolutePath();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private String guardarUriEnAlmacenInterno(Uri sourceUri) {
+        File archivo = new File(getFilesDir(), "pet_" + System.currentTimeMillis() + ".jpg");
+        try (InputStream inputStream = getContentResolver().openInputStream(sourceUri);
+             FileOutputStream outputStream = new FileOutputStream(archivo)) {
+
+            if (inputStream == null) {
+                return null;
+            }
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+            return archivo.getAbsolutePath();
+        } catch (IOException e) {
+            return null;
+        }
     }
 }
