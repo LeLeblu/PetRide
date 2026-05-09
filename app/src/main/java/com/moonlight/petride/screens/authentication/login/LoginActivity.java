@@ -24,6 +24,9 @@ public class LoginActivity extends AppCompatActivity {
         vincularVistas();
 
         btnLogin.setOnClickListener(v -> {
+            if (!validarCamposLogin()) {
+                return;
+            }
             irAHome();
         });
 
@@ -44,5 +47,24 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPasswordLogin);
         btnLogin = findViewById(R.id.btnLogin);
         tvSignup = findViewById(R.id.tvSignup);
+    }
+
+    private boolean validarCamposLogin() {
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            etEmail.setError("El correo es obligatorio");
+            etEmail.requestFocus();
+            return false;
+        }
+
+        if (password.isEmpty()) {
+            etPassword.setError("La contraseña es obligatoria");
+            etPassword.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 }

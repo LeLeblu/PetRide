@@ -38,6 +38,9 @@
             android:name=".screens.pets.manage_pet.ManagePetsActivity"
             android:exported="false" />
         <activity
+            android:name=".screens.pets.edit_pet.EditPetActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.pets.add_pet.AddNewPetActivity"
             android:exported="false" />
         <activity

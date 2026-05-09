@@ -88,6 +88,9 @@ public class RidesActivity extends AppCompatActivity {
 
     private void configurarNavegacion() {
         btnConfirmarPaseo.setOnClickListener(v -> {
+            if (!validarCamposPaseo()) {
+                return;
+            }
             Intent intent = new Intent(RidesActivity.this, RidesHistoryActivity.class);
             startActivity(intent);
         });
@@ -145,5 +148,40 @@ public class RidesActivity extends AppCompatActivity {
         String coordenadas = location.getLatitude() + ", " + location.getLongitude();
         etDireccionPaseo.setText(coordenadas);
         Toast.makeText(this, "Ubicación agregada", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean validarCamposPaseo() {
+        String fecha = etFecha.getText().toString().trim();
+        String direccion = etDireccionPaseo.getText().toString().trim();
+
+        if (listaMascotas == null || listaMascotas.isEmpty()) {
+            Toast.makeText(this, "Debes tener al menos una mascota registrada", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (spMascotas.getSelectedItemPosition() < 0) {
+            Toast.makeText(this, "Selecciona una mascota", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (fecha.isEmpty()) {
+            etFecha.setError("La fecha es obligatoria");
+            etFecha.requestFocus();
+            return false;
+        }
+
+        if (direccion.isEmpty()) {
+            etDireccionPaseo.setError("La dirección es obligatoria");
+            etDireccionPaseo.requestFocus();
+            return false;
+        }
+
+        String estadoInicial = "Pendiente";
+        if (estadoInicial.trim().isEmpty()) {
+            Toast.makeText(this, "No se pudo definir el estado del paseo", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }

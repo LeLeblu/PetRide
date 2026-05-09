@@ -77,9 +77,13 @@ public class AddNewPetActivity extends AppCompatActivity {
     }
 
     private void configurarBotones() {
-        // Por ahora simula fin de la actividad.
-        btnAgregarMascota.setOnClickListener(v -> finish());
-        // Vuelve a la pantalla anterior, igual que en otras vistas.
+        btnAgregarMascota.setOnClickListener(v -> {
+            if (!validarCamposMascota()) {
+                return;
+            }
+            // Si pasa validaciones, continuamos con el flujo actual.
+            finish();
+        });
         tvVolverMisMascotas.setOnClickListener(v -> finish());
     }
 
@@ -124,5 +128,46 @@ public class AddNewPetActivity extends AppCompatActivity {
         } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA);
         }
+    }
+
+    private boolean validarCamposMascota() {
+        String nombre = etNombreMascota.getText().toString().trim();
+        String raza = etRaza.getText().toString().trim();
+        String edadTexto = etEdad.getText().toString().trim();
+
+        if (nombre.isEmpty()) {
+            etNombreMascota.setError("El nombre es obligatorio");
+            etNombreMascota.requestFocus();
+            return false;
+        }
+
+        if (raza.isEmpty()) {
+            etRaza.setError("La raza es obligatoria");
+            etRaza.requestFocus();
+            return false;
+        }
+
+        if (edadTexto.isEmpty()) {
+            etEdad.setError("La edad es obligatoria");
+            etEdad.requestFocus();
+            return false;
+        }
+
+        int edad;
+        try {
+            edad = Integer.parseInt(edadTexto);
+        } catch (NumberFormatException e) {
+            etEdad.setError("La edad debe ser numérica");
+            etEdad.requestFocus();
+            return false;
+        }
+
+        if (edad < 0) {
+            etEdad.setError("La edad no puede ser negativa");
+            etEdad.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 }
